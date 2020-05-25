@@ -258,6 +258,11 @@
                             {
                                 "name": "jupyterhub",
                                 "image": "${JUPYTERHUB_IMAGE}",
+                                "command": [
+                                    "bash", 
+                                    "-c", 
+                                    "\npatch /opt/app-root/lib/python3.6/site-packages/kubespawner/spawner.py << EOT\n73c73\n<             key=lambda x: x.last_timestamp if x.last_timestamp is not None else 0.,\n---\n>             key=lambda event: event.last_timestamp or event.event_time,\nEOT\n\nstart-jupyterhub.sh\n"
+                                ],
                                 "ports": [
                                     {
                                         "containerPort": 8080,
